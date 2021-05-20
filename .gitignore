@@ -25,10 +25,7 @@ hs_err_pid*
 # IntelliJ-environment (excluding directory /.idea/libraries).
 *.iml
 target
-out
-!.idea/
-.idea/*
-!.idea/libraries
+.idea
 
 # Directories waarin de qrcodes worden gegenereerd voor 2FA en logging.
 src/main/resources/2fa/
