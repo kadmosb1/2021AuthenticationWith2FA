@@ -17,6 +17,13 @@ public class Login {
     }
 
     /*
+     * Als een gebruiker ingelogd moet zijn met 2FA (gebruikersnaam, password en code), wordt dat hier gecontroleerd.
+     */
+    public static boolean isAuthenticatedWith2FA () {
+        return login.Authentication2FAAdapter.getInstance ().userIsAuthenticated ();
+    }
+
+    /*
      * Hier wordt gecontroleerd of de ingelogde gebruiker een specifieke rol (roleName) heeft.
      */
     public static boolean isAuthorized (String roleName) {

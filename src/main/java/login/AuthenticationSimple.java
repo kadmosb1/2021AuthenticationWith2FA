@@ -1,6 +1,7 @@
 package login;
 
 import logging.Logging;
+import tfa.Authentication2FA;
 
 /*
  * Bij eenvoudige authenticatie volstaat een gebruikersnaam voor inloggen.
@@ -69,14 +70,23 @@ public class AuthenticationSimple extends Authentication {
      * Een gebruiker kan direct (zonder toetsenbord) worden ingelegd met gebruikersnaam en password.
      */
     @Override
-    protected boolean authenticate (User user, String... password) {
+    protected boolean authenticate (User user, String... passwordAndOrPTOP) {
 
-        user.setActive ();
+        if (user != null) {
 
-        // Hoewel een password bij eenvoudige authenticatie overbodig is, wordt een eventueel verstrekt password wel
-        // gebruikt om een gebruiker in te loggen (er wordt alleen niet gecontroleerd of dat is gelukt.
-        if (password.length == 1) {
-            user.authenticate (password [0]);
+            user.setActive();
+
+            // Hoewel een password bij eenvoudige authenticatie overbodig is, wordt een eventueel verstrekt password wel
+            // gebruikt om een gebruiker in te loggen (er wordt alleen niet gecontroleerd of dat is gelukt.
+            if (passwordAndOrPTOP.length >= 1) {
+                user.authenticate(passwordAndOrPTOP[0]);
+            }
+
+            // Hoewel een Authenticatorcode bij eenvoudige authenticatie overbodig is, wordt een eventuele opgegeven
+            // POTP wel geregistreerd.
+            if (passwordAndOrPTOP.length >= 2) {
+                user.authenticateWith2FA (passwordAndOrPTOP[1]);
+            }
         }
 
         return true;

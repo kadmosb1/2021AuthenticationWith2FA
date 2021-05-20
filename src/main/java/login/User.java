@@ -1,6 +1,6 @@
 package login;
 
-import java.util.Objects;
+import tfa.Authentication2FA;
 
 class User {
 
@@ -8,27 +8,43 @@ class User {
     private String password;
     private boolean isActive;
     private boolean isAuthenticated;
+    private boolean isAuthenticatedWith2FA;
+    private String secretKey;
 
-    public User (String userName, String password) {
+    protected User (String userName, String password, String... secretKey) {
+
         this.userName = userName;
         this.password = password;
         this.isActive = false;
         this.isAuthenticated = false;
+        this.isAuthenticatedWith2FA = false;
+
+        if (secretKey.length == 1) {
+            this.secretKey = secretKey [0];
+        }
     }
 
-    public boolean isActive () {
-        return isActive || isAuthenticated;
+    protected String getUserName () {
+        return userName;
     }
 
-    public void setActive () {
+    protected String getPassword () {
+        return password;
+    }
+
+    protected boolean isActive () {
+        return isActive || isAuthenticated || isAuthenticatedWith2FA;
+    }
+
+    protected void setActive () {
         isActive = true;
     }
 
-    public boolean isAuthenticated () {
-        return isAuthenticated;
+    protected boolean isAuthenticated () {
+        return isAuthenticated || isAuthenticatedWith2FA;
     }
 
-    public boolean authenticate (String password) {
+    protected boolean authenticate (String password) {
 
         if (this.password.equals (password)) {
             isAuthenticated = true;
@@ -38,17 +54,33 @@ class User {
         return false;
     }
 
-    public String getUserName () {
-        return userName;
+    protected boolean activate2FA () {
+
+        if (secretKey == null) {
+            secretKey = Authentication2FA.activate (userName, "Invoicing");
+        }
+
+        return (secretKey != null);
     }
 
-    protected String getPassword () {
-        return password;
+    protected boolean authenticateWith2FA (String TFACode) {
+
+        if (Authentication2FA.checkAuthenticatorCode (secretKey, TFACode)) {
+            isAuthenticatedWith2FA = true;
+            return true;
+        }
+
+        return false;
+    }
+
+    protected boolean isAuthenticatedWith2FA () {
+        return isAuthenticatedWith2FA;
     }
 
     public void logout () {
         isActive = false;
         isAuthenticated = false;
+        isAuthenticatedWith2FA = false;
     }
 
     @Override

@@ -37,7 +37,7 @@ public class Logging {
     }
 
     private void setLogFilename () {
-        logFile = new File ("src\\main\\resources\\Logging\\" + getFormattedDate () + ".log");
+        logFile = new File ("src\\main\\resources\\logging\\" + getFormattedDate () + ".log");
     }
 
     protected boolean logFileDoesNotExist () {
@@ -49,7 +49,7 @@ public class Logging {
         String header = "";
         setLogFilename ();
 
-        if (!logFileDoesNotExist ()) {
+        if (logFileDoesNotExist ()) {
             header = String.format ("%-19s %-20s %s%n", "Date", "Gebruikersnaam", "Logging");
         }
 

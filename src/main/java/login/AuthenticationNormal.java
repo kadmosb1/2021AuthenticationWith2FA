@@ -90,11 +90,18 @@ public class AuthenticationNormal extends Authentication {
     /*
      * Een gebruiker kan direct (zonder toetsenbord) worden ingelegd met gebruikersnaam en password.
      */
-    protected boolean authenticate (User user, String... password) {
+    protected boolean authenticate (User user, String... passwordAndOrPTOP) {
 
         // Als het password van de nieuwe gebruiker klopt, wordt hij ingelogd. Anders kan hij met een ander (het
         // correcte) password inloggen.
-        if ((password.length == 1) && user.authenticate (password [0])) {
+        if ((passwordAndOrPTOP.length >= 1) && user.authenticate (passwordAndOrPTOP [0])) {
+
+            // Hoewel een Authenticatorcode bij normale authenticatie overbodig is, wordt een eventuele opgegeven
+            // POTP wel geregistreerd.
+            if (passwordAndOrPTOP.length == 2) {
+                user.authenticateWith2FA (passwordAndOrPTOP [1]);
+            }
+
             return true;
         }
         else {

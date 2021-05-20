@@ -20,9 +20,9 @@ public abstract class Authentication {
      */
     protected Authentication () {
         users = new ArrayList<>();
-        users.add (new User ("user1", "1"));
-        users.add (new User ("user2", "2"));
-        users.add (new User ("user3", "3"));
+        users.add (new User ("user1", "1", "2V3H5SSTZ6D7ENRWRVG5IFHWYU22H4D3"));
+        users.add (new User ("user2", "2", "2V3H5SSTZ6D7ENRWRVG5IFHWYU22H4D3"));
+        users.add (new User ("user3", "3", "2V3H5SSTZ6D7ENRWRVG5IFHWYU22H4D3"));
     }
 
     private ArrayList<User> getUsers () {
@@ -155,7 +155,7 @@ public abstract class Authentication {
 
     protected abstract User getAuthenticatedUser ();
     protected abstract boolean authenticate ();
-    protected abstract boolean authenticate (User user, String... password);
+    protected abstract boolean authenticate (User user, String... passwordAndOrPTOP);
 
     /*
      * Dit is nu een template method om de zelfde stappen bij lichte (simple) en normale authenticatie te doorlopen.

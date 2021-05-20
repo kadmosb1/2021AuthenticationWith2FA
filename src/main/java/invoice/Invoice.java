@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Invoice {
 
     private static int nextInvoiceNumber = 0;
-    private Business business;
+    private final Business business;
 
     // Voor het opstellen van een factuur moet bekend zijn of het om een kleine of een normale ondernemer gaat.
     public Invoice (Business business) {
@@ -51,7 +51,7 @@ public class Invoice {
     public void printInvoice (Customer customer, ArrayList<InvoiceLine> lines) {
 
         // Een factuur mag alleen worden opgesteld door een ingelogde gebruiker die daar rechten voor heeft.
-        if (Login.isAuthenticated () && Login.isAuthorized ("invoice")) {
+        if (Login.isAuthenticatedWith2FA () && Login.isAuthorized ("invoice")) {
             System.out.print (getInvoiceString(customer, lines));
         }
         else {

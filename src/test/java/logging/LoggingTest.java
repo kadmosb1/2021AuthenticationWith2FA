@@ -32,7 +32,7 @@ class LoggingTest {
         actualLogString = logging.getLogString ("test");
         expectedLogString = "";
 
-        if (!logging.logFileDoesNotExist ()) {
+        if (logging.logFileDoesNotExist ()) {
             expectedLogString = String.format ("%-19s %-20s %s%n", "Date", "Gebruikersnaam", "Logging");
         }
 
