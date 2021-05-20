@@ -30,6 +30,6 @@ out
 .idea/*
 !.idea/libraries
 
-# Directory waarin de qrcodes worden gegenereerd voor 2FA en logging.
-src/main/resources/2fa
-src/main/resources/logging
+# Directories waarin de qrcodes worden gegenereerd voor 2FA en logging.
+src/main/resources/2fa/
+src/main/resources/logging/
